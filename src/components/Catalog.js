@@ -1,6 +1,5 @@
 import { GridList, GridListTile, GridListTileBar  } from 'material-ui/GridList';
 import React, { Component } from "react";
-import photo1 from "../images/campus-entrance.jpg";
 import photo2 from "../images/photo2.jpg";
 import photo3 from "../images/photo3.jpg";
 import photo4 from "../images/photo4.jpg";
@@ -37,9 +36,11 @@ class Catalog extends Component {
       );
     }
   }
+  /** 
   Catalog.propTypes = {
     classes: PropTypes.object.isRequired,
     childern: PropTypes.object.isRequired
   };
+  */
   export default Catalog;
   
