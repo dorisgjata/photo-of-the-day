@@ -1,13 +1,8 @@
 import React, { Component } from "react";
-import photo1 from "/home/dorisgjata/photo-react/src/components/photo1.jpg";
-import photo2 from "../images/photo2.jpg";
-import photo3 from "../images/photo3.jpg";
-import photo4 from "../images/photo4.jpg";
 import PropTypes from "prop-types";
 import IconButton from "material-ui/IconButton";
 import Icon from "material-ui/Icon";
 import Collapse from "material-ui/transitions/Collapse"
-import Paper from "material-ui/Paper";
 import Typography from "material-ui/Typography";
 import  Card,{ CardContent, CardHeader, CardMedia, CardActions  } from 'material-ui/Card';
 import "./Photo.css";
@@ -35,16 +30,11 @@ class Photo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: 0,
       expanded: false,
+      imageSrc: '',
+      caption: "text"
     };
   }
-  handleState = (event, value) => {
-    this.setState({ value });
-  };
-  handleContent = (event, value, object) => {
-   
-  };
   componentWillReceiveProps() {
     this.setState({ expanded: false })
   }
@@ -52,15 +42,35 @@ class Photo extends Component {
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }))
   }
-  render() {
+
+componentDidMount(){    
+    
+const mediaUrl= "https://api.instagram.com/v1/users/self/media/recent/?access_token=1425299723.beeb19b.007cf609d0084d6a9c561f763f057f31";
+const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+fetch(proxyUrl+mediaUrl )
+    .then(function(response) {
+      return response.json()
+    }).then(function(json) {      
+      const imageUrl = json.data[0].images.standard_resolution.url       
+      console.log('parsed json', imageUrl) 
+      return imageUrl
+    }).catch(function(ex) {
+      console.log('parsing failed', ex)
+    })         
+}
+render() {
+    
     const classes = this.props.classes;
     const value = this.state.value;
-    console.log(this.state.value);
+
     return (
       
       <Card> 
        <CardMedia 
-        image={photo3}
+       height="320"
+       width="480"
+       image={null }
+
         className="image"
         title="oakland university entrance"
       />
@@ -87,10 +97,8 @@ class Photo extends Component {
             unmountOnExit
           >
       <CardContent  className="footer">
-     Oakland's library        
-     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vitae urna ac augue venenatis tincidunt quis vel diam. Ut placerat dui sit amet luctus vulputate. Ut et metus at orci pretium sodales. Nulla nec erat diam. Suspendisse ac ante dignissim, pulvinar nibh elementum, tristique ipsum. Curabitur ac aliquet risus. Nam a sodales mi. In tincidunt non ex condimentum fringilla.  
-     Fusce vulputate, ex ac efficitur venenatis, tortor eros rutrum felis, non viverra erat nunc sed felis. Curabitur vitae gravida ex. Sed nisi neque, lobortis sed sapien vel, pellentesque blandit nunc. Nunc et venenatis nunc. Nulla tempor odio at sapien placerat volutpat. Fusce et mi pretium, lobortis risus ut, congue elit. Morbi purus erat, consequat venenatis efficitur at, eleifend in nulla. Sed ullamcorper imperdiet arcu eu feugiat.
-</CardContent>
+     
+      </CardContent>
 </Collapse>
          </Card> 
     
