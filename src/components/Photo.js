@@ -35,11 +35,33 @@ class Photo extends Component {
       caption: "text"
     };
   }
+  componentWillReceiveProps() {
+    this.setState({ expanded: false })
+  }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }))
+  }  
+  componentDidMount(){
+    this.getImage().then(url => {
+      this.setState({imageSrc: url})
+    })
+
   }
-  async  getImage(){
+  shouldComponentUpdate(prevProps, prevState){
+    if (true){
+      console.log(true, prevState.imageSrc)
+      return true
+    }else{
+      console.log(false)
+      return false
+    }    
+  }
+  componentDidUpdate(nextProps, nextState){
+    
+    console.log(nextProps,nextState)
+  }
+  getImage = async () => {
     const mediaUrl= "https://api.instagram.com/v1/users/self/media/recent/?access_token=1425299723.beeb19b.007cf609d0084d6a9c561f763f057f31";
     const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
     
@@ -47,16 +69,13 @@ class Photo extends Component {
         const response = await fetch(proxyUrl+mediaUrl)
         const data = await response.json()
         const imageUrl = data.data["0"].images.standard_resolution.url        
-        console.log('parsed json', imageUrl) 
-        this.setState(state =>({imageSrc: imageUrl}))
         return imageUrl
       } catch (err) {
         return err
-      }} 
-  componentDidMount(){
-     this.getImage()
       }
-
+  
+   }
+ 
 render() {
     const classes = this.props.classes;
     const value = this.state.value;
