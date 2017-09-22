@@ -35,41 +35,39 @@ class Photo extends Component {
       caption: "text"
     };
   }
-  componentWillReceiveProps() {
-    this.setState({ expanded: false })
-  }
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }))
   }
+  async  getImage(){
+    const mediaUrl= "https://api.instagram.com/v1/users/self/media/recent/?access_token=1425299723.beeb19b.007cf609d0084d6a9c561f763f057f31";
+    const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+    
+      try {
+        const response = await fetch(proxyUrl+mediaUrl)
+        const data = await response.json()
+        const imageUrl = data.data["0"].images.standard_resolution.url        
+        console.log('parsed json', imageUrl) 
+        this.setState(state =>({imageSrc: imageUrl}))
+        return imageUrl
+      } catch (err) {
+        return err
+      }} 
+  componentDidMount(){
+     this.getImage()
+      }
 
-componentDidMount(){    
-    
-const mediaUrl= "https://api.instagram.com/v1/users/self/media/recent/?access_token=1425299723.beeb19b.007cf609d0084d6a9c561f763f057f31";
-const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-fetch(proxyUrl+mediaUrl )
-    .then(function(response) {
-      return response.json()
-    }).then(function(json) {      
-      const imageUrl = json.data[0].images.standard_resolution.url       
-      console.log('parsed json', imageUrl) 
-      return imageUrl
-    }).catch(function(ex) {
-      console.log('parsing failed', ex)
-    })         
-}
 render() {
-    
     const classes = this.props.classes;
     const value = this.state.value;
-
+   
     return (
       
       <Card> 
        <CardMedia 
        height="320"
        width="480"
-       image={null }
+       image={this.state.imageSrc}
 
         className="image"
         title="oakland university entrance"
