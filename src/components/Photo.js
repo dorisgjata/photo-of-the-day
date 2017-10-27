@@ -8,6 +8,8 @@ import  Card,{ CardContent, CardHeader, CardMedia, CardActions  } from 'material
 import "./Photo.css";
 import { withStyles } from 'material-ui/styles';
 import classnames from "classnames"
+import photo2 from "../images/photo2.jpg";
+
 const mediaUrl= "https://api.instagram.com/v1/users/self/media/recent/?access_token=1425299723.beeb19b.007cf609d0084d6a9c561f763f057f31";
 var opt= { method: 'GET',
  headers: new Headers ({
@@ -36,7 +38,7 @@ class Photo extends Component {
     super(props);
     this.state = {
       expanded: false,
-      image: "image",
+      image: photo2,
       caption: "text"
     };
   }
